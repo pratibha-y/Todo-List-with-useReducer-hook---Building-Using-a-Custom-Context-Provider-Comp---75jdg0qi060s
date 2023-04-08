@@ -10,32 +10,35 @@ const AddTodo = ({ dispatch }) => {
 
 export { AddTodo }*/
 
-import React, { useState } from "react"
-import { useContext } from "react";
-import { myContext } from "./App";
+import React, { useState } from "react";
 
 const AddTodo = ({ dispatch }) => {
-    const newContext = useContext(myContext);
-    console.log("Dispatch", newContext);
-    const [inputValue, setInputValue] = useState("");
+  const [title, setTitle] = useState("");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "ADD_TODO",
+      payload: {
+        title,
+        id: Date.now(),
+      },
+    });
+    setTitle("");
+  };
 
-    const handleForm = (e) => {
-        e.preventDefault();
-        newContext.dispatchFun({ type: "ADD", payload: { todoTitle: inputValue, todoId: Date.now() } })
-        setInputValue("");
-    }
+  return (
+    <form id="todo-form" onSubmit={handleSubmit}>
+      <input
+        id="todo-input"
+        type="text"
+        placeholder="Enter a todo item"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <button type="submit">Add Todo</button>
+    </form>
+  );
+};
 
-    return (
-        <>
-            <form id="todo-form" onSubmit={handleForm}>
-                <input type={"text"} id="todo-input" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-                {/* <input type="submit" value="ADD TODO" /> */}
-                <button type="submit">Add Todo</button>
-
-            </form>
-        </>
-    )
-}
-
-export { AddTodo }
+export { AddTodo };
