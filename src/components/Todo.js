@@ -8,21 +8,25 @@ const Todo = () => {
 
 export { Todo }*/
 
-import React from 'react';
-import { useContext } from 'react';
-import { myContext } from './App';
-const Todo = ({ todoObj }) => {
-    console.log(todoObj);
-    const newContext = useContext(myContext);
-    return (
-        <div className='todo'>
-            <div className="todo-title">{todoObj.title}</div>
-            <button className='todo-delete' onClick={(e) => newContext.dispatchFun({ type: "DELETE", payload: { todoTitle: todoObj.title, todoId: todoObj.id } })}>Delete</button>
+import React from "react";
 
-        </div>
-    )
-}
+const Todo = ({ todo, dispatch }) => {
+  const handleDelete = () => {
+    dispatch({
+      type: "DELETE_TODO",
+      payload: todo.id,
+    });
+  };
 
+  return (
+    <div className="todo">
+      <div className="todo-title">{todo.title}</div>
+      <button className="todo-delete" onClick={handleDelete}>
+        Delete
+      </button>
+    </div>
+  );
+};
 
-export { Todo }
+export { Todo };
 
